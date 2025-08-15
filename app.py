@@ -3,7 +3,7 @@ from pytube import YouTube
 import io
 import re
 
-st.set_page_config(page_title="Youtube to Media Download", page_icon="▶️")
+st.set_page_config(page_title="Youtube to Media Download", page_icon="⬇️")
 
 st.title("Youtube to Media Download")
 st.write("Enter a YouTube video URL to download it as a video or audio file.")
@@ -43,5 +43,8 @@ if yt_url:
             st.error("Could not find a suitable stream to download.")
 
     except Exception as e:
-        st.error(f"An error occurred: {e}. Please check the URL and try again.")
+        error_message = f"An error occurred: {e}. Please check the URL and try again."
+        if 'HTTP Error 400' in str(e):
+            error_message += "\n\nThis often means the `pytube` library is out of date. Try running `pip install --upgrade pytube` to fix this."
+        st.error(error_message)
         st.stop()
